@@ -98,7 +98,7 @@ module.exports = function (options) {
   }
 
   return function (req, res, next) {
-    const whitelist = ['distinct', 'limit', 'populate', 'query', 'select', 'skip', 'sort']
+    const whitelist = ['distinct', 'limit', 'populate', 'query', 'select', 'skip', 'sort', 'collation']
 
     req._ermQueryOptions = {}
 
@@ -113,7 +113,7 @@ module.exports = function (options) {
         } catch (e) {
           return errorHandler(req, res, next)(new Error(`invalid_json_${key}`))
         }
-      } else if (key === 'populate' || key === 'select' || key === 'sort') {
+      } else if (key === 'populate' || key === 'select' || key === 'sort' || key === 'collation') {
         try {
           req._ermQueryOptions[key] = JSON.parse(req.query[key])
         } catch (e) {

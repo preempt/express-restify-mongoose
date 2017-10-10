@@ -41,6 +41,10 @@ module.exports = function (options) {
         query.distinct(queryOptions.distinct)
       }
 
+      if (queryOptions.collation) {
+        query.collation(queryOptions.collation)
+      }
+
       if (options.readPreference) {
         query.read(options.readPreference)
       }

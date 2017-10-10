@@ -13,7 +13,8 @@ describe('buildQuery', () => {
     sort: sinon.spy(),
     select: sinon.spy(),
     populate: sinon.spy(),
-    distinct: sinon.spy()
+    distinct: sinon.spy(),
+    collation: sinon.spy()
   }
 
   afterEach(() => {
@@ -47,6 +48,7 @@ describe('buildQuery', () => {
         sinon.assert.notCalled(query.select)
         sinon.assert.notCalled(query.populate)
         sinon.assert.notCalled(query.distinct)
+        sinon.assert.notCalled(query.collation)
         assert.equal(result, query)
       })
     })
@@ -67,6 +69,7 @@ describe('buildQuery', () => {
         sinon.assert.notCalled(query.select)
         sinon.assert.notCalled(query.populate)
         sinon.assert.notCalled(query.distinct)
+        sinon.assert.notCalled(query.collation)
         assert.equal(result, query)
       })
     })
@@ -87,6 +90,7 @@ describe('buildQuery', () => {
         sinon.assert.notCalled(query.select)
         sinon.assert.notCalled(query.populate)
         sinon.assert.notCalled(query.distinct)
+        sinon.assert.notCalled(query.collation)
         assert.equal(result, query)
       })
     })
@@ -109,6 +113,7 @@ describe('buildQuery', () => {
         sinon.assert.notCalled(query.select)
         sinon.assert.notCalled(query.populate)
         sinon.assert.notCalled(query.distinct)
+        sinon.assert.notCalled(query.collation)
         assert.equal(result, query)
       })
     })
@@ -189,6 +194,7 @@ describe('buildQuery', () => {
         sinon.assert.notCalled(query.select)
         sinon.assert.notCalled(query.populate)
         sinon.assert.notCalled(query.distinct)
+        sinon.assert.notCalled(query.collation)
         assert.equal(result, query)
       })
     })
@@ -215,6 +221,7 @@ describe('buildQuery', () => {
         sinon.assert.notCalled(query.sort)
         sinon.assert.notCalled(query.populate)
         sinon.assert.notCalled(query.distinct)
+        sinon.assert.notCalled(query.collation)
         assert.equal(result, query)
       })
     })
@@ -245,6 +252,7 @@ describe('buildQuery', () => {
         sinon.assert.notCalled(query.select)
         sinon.assert.notCalled(query.sort)
         sinon.assert.notCalled(query.distinct)
+        sinon.assert.notCalled(query.collation)
         assert.equal(result, query)
       })
     })
@@ -265,6 +273,30 @@ describe('buildQuery', () => {
         sinon.assert.notCalled(query.sort)
         sinon.assert.notCalled(query.populate)
         sinon.assert.notCalled(query.select)
+        sinon.assert.notCalled(query.collation)
+        assert.equal(result, query)
+      })
+    })
+  })
+
+  describe('collation', () => {
+    it('calls collation and returns a query object', () => {
+      let queryOptions = {
+        collation: {
+          locale: 'en'
+        }
+      }
+
+      return buildQuery({})(query, queryOptions).then((result) => {
+        sinon.assert.calledOnce(query.collation)
+        sinon.assert.calledWithExactly(query.collation, { locale: 'en' })
+        sinon.assert.notCalled(query.where)
+        sinon.assert.notCalled(query.skip)
+        sinon.assert.notCalled(query.limit)
+        sinon.assert.notCalled(query.sort)
+        sinon.assert.notCalled(query.populate)
+        sinon.assert.notCalled(query.select)
+        sinon.assert.notCalled(query.distinct)
         assert.equal(result, query)
       })
     })

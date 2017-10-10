@@ -365,6 +365,23 @@ describe('prepareQuery', () => {
     sinon.assert.notCalled(options.onError)
   })
 
+  it('calls next when collation key is valid json', () => {
+    let req = {
+      query: {
+        collation: '{"locale":"us"}'
+      }
+    }
+
+    prepareQuery(options)(req, {}, next)
+
+    assert.deepEqual(req._ermQueryOptions, {
+      collation: JSON.parse(req.query.collation)
+    })
+    sinon.assert.calledOnce(next)
+    sinon.assert.calledWithExactly(next)
+    sinon.assert.notCalled(options.onError)
+  })
+
   describe('select', () => {
     it('parses a string to include fields', () => {
       let req = {
